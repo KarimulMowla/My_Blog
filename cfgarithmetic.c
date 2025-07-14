@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
+
 int main() {
     char str[100];
     int i, len;
@@ -9,27 +11,28 @@ int main() {
 
     len = strlen(str);
 
-    // The expression must start and end with a digit
-    if (!isdigit(str[0]) || !isdigit(str[len - 1])) {
+    // Expression must start and end with a single digit
+    if (len % 2 == 0 || !isdigit(str[0]) || !isdigit(str[len - 1])) {
         printf("Rejected\n");
         return 0;
     }
 
-    // Check pattern: digit (operator digit)* (e.g., 1+2-3)
-    for (i = 1; i < len - 1; i++) {
-        if (i % 2 == 1) {
-            if (str[i] != '+' && str[i] != '-') {
-                printf("Rejected: Invalid operator at position %d\n", i);
+    // Strict pattern: digit, operator, digit, operator, digit ...
+    for (i = 0; i < len; i++) {
+        if (i % 2 == 0) {
+            // Expect digit only
+            if (!isdigit(str[i])) {
+                printf("Rejected: Expected digit at position %d\n", i);
                 return 0;
             }
         } else {
-            if (!isdigit(str[i])) {
-                printf("Rejected: Invalid digit at position %d\n", i);
+            // Expect operator only
+            if (str[i] != '+' && str[i] != '-') {
+                printf("Rejected: Expected operator at position %d\n", i);
                 return 0;
             }
         }
     }
-
     printf("Accepted\n");
     return 0;
 }
