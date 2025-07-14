@@ -2,13 +2,13 @@
 #include <string.h>
 int main() {
     char str[100];
-    printf("Enter a string (only a and b): ");
+    printf("Enter a string (only 0 and 1): ");
     scanf("%s", str);
     int state = 0; // 0: q0, 1: q1, 2: reject
     for (int i = 0; str[i] != '\0'; i++) {
         char ch = str[i];
         if (ch != '0' && ch != '1') {
-            printf("Rejected ❌ (invalid character: %c)\n", ch);
+            printf("Rejected (invalid character: %c)\n", ch);
             return 0;
         }
         if (state == 0) {
@@ -26,9 +26,9 @@ int main() {
         }
     }
     if (state == 0) {
-        printf("Accepted ✅ (every 'a' is followed by 'b')\n");
+        printf("Accepted  (every '0' is followed by '1')\n");
     } else {
-        printf("Rejected ❌ (invalid 'a' not followed by 'b')\n");
+        printf("Rejected  (invalid '0' not followed by '1')\n");
     }
 
     return 0;
